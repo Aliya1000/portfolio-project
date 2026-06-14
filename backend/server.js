@@ -61,6 +61,7 @@ Email: ${req.body.email}
 Message: ${req.body.message}
 `
     });
+    console.log("RESEND EMAIL SENT");
 
     console.log("Email sent successfully");
 
