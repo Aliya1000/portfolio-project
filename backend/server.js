@@ -43,21 +43,20 @@ app.put("/api/projects/:id", async (req, res) => {
 app.post("/api/contact", async (req, res) => {
 
     const contact = await Contact.create(req.body);
-    
+
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
+  service: "gmail",
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
-  debug: true,
-  logger: true,
 });
+
 await transporter.verify();
-console.log("SMTP connection successful");
-await transporter.sendMail({
+console.log("SMTP OK");
+
+try {
+  await transporter.sendMail({
     from: process.env.EMAIL_USER,
     to: process.env.EMAIL_USER,
     subject: "New Portfolio Contact Message",
@@ -66,8 +65,12 @@ Name: ${req.body.name}
 Email: ${req.body.email}
 Message: ${req.body.message}
 `
-});
+  });
 
+  console.log("Email sent successfully");
+} catch (err) {
+  console.error("MAIL ERROR:", err);
+}
     res.json(contact);
 });
 app.get("/api/contact", async (req, res) => {
