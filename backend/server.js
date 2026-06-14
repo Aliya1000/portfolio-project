@@ -1,9 +1,7 @@
 const { Resend } = require("resend");
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const nodemailer = require("nodemailer");
-const dns = require("dns");
-dns.setServers(["8.8.8.8", "8.8.4.4"]);
+
 require("dotenv").config();
 const express = require("express");
 const Project = require("./models/Project");
@@ -44,37 +42,26 @@ app.put("/api/projects/:id", async (req, res) => {
     res.json(project);
 });
 app.post("/api/contact", async (req, res) => {
-
+  try {
     const contact = await Contact.create(req.body);
 
-await resend.emails.send({
-  from: "onboarding@resend.dev",
-  to: process.env.EMAIL_USER,
-  subject: "New Portfolio Contact Message",
-  text: `
+    await resend.emails.send({
+      from: "onboarding@resend.dev",
+      to: process.env.EMAIL_USER,
+      subject: "New Portfolio Contact Message",
+      text: `
 Name: ${req.body.name}
 Email: ${req.body.email}
 Message: ${req.body.message}
 `
-});
+    });
 
-console.log("Email sent successfully");
+    console.log("Email sent successfully");
 
-  console.log("Email sent successfully");
-} catch (err) {
-  console.error("MAIL ERROR:", err);
-}
     res.json(contact);
-});
-app.get("/api/contact", async (req, res) => {
 
-    const contacts = await Contact.find();
-
-    res.json(contacts);
-
-});
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-    console.log(`Server Running on Port ${PORT}`);
+  } catch (err) {
+    console.error("MAIL ERROR:", err);
+    res.status(500).json({ error: err.message });
+  }
 });
