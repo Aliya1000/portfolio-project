@@ -1,3 +1,6 @@
+const { Resend } = require("resend");
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 const nodemailer = require("nodemailer");
 const dns = require("dns");
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
@@ -44,28 +47,18 @@ app.post("/api/contact", async (req, res) => {
 
     const contact = await Contact.create(req.body);
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
-
-await transporter.verify();
-console.log("SMTP OK");
-
-try {
-  await transporter.sendMail({
-    from: process.env.EMAIL_USER,
-    to: process.env.EMAIL_USER,
-    subject: "New Portfolio Contact Message",
-    text: `
+await resend.emails.send({
+  from: "onboarding@resend.dev",
+  to: process.env.EMAIL_USER,
+  subject: "New Portfolio Contact Message",
+  text: `
 Name: ${req.body.name}
 Email: ${req.body.email}
 Message: ${req.body.message}
 `
-  });
+});
+
+console.log("Email sent successfully");
 
   console.log("Email sent successfully");
 } catch (err) {
