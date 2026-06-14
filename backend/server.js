@@ -8,6 +8,8 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 
 const express = require("express");
+
+
 const Project = require("./models/Project");
 const Contact = require("./models/Contact");
 const mongoose = require("mongoose");
@@ -64,7 +66,8 @@ Message: ${req.body.message}
 
     res.json(contact);
 
-  } catch (err) {
+  }
+   catch (err) {
     console.error("MAIL ERROR:", err);
     res.status(500).json({ error: err.message });
   }

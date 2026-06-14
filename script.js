@@ -1,5 +1,5 @@
 console.log("Script Loaded");
-fetch("https://portfolio-project-aid0.onrender.com/api/projects")
+fetch("https://portfolio-project-25ji.onrender.com/api/projects")
 .then(response => response.json())
 .then(data => {
     console.log(data);
@@ -44,7 +44,7 @@ document.getElementById("message").value
 
 };
 
-await fetch("https://portfolio-project-aid0.onrender.com/api/contact",
+await fetch("https://portfolio-project-25ji.onrender.com/api/contact",
 {
 method:"POST",
 
@@ -54,8 +54,7 @@ headers:{
 
 body:JSON.stringify(data)
 
-}
-);
+});
 
 alert("Message Sent");
 
