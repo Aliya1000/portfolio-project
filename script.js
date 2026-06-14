@@ -1,5 +1,5 @@
 console.log("Script Loaded");
-fetch("http://localhost:5000/api/projects")
+fetch("https://portfolio-project-aid0.onrender.com/api/projects")
 .then(response => response.json())
 .then(data => {
     console.log(data);
@@ -44,8 +44,7 @@ document.getElementById("message").value
 
 };
 
-await fetch(
-"http://localhost:5000/api/contact",
+await fetch("https://portfolio-project-aid0.onrender.com/api/contact",
 {
 method:"POST",
 
