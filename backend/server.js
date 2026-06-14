@@ -43,8 +43,8 @@ app.put("/api/projects/:id", async (req, res) => {
 app.post("/api/contact", async (req, res) => {
 
     const contact = await Contact.create(req.body);
-
-    const transporter = nodemailer.createTransport({
+    
+const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
   secure: false,
@@ -52,10 +52,11 @@ app.post("/api/contact", async (req, res) => {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
-  tls: {
-    rejectUnauthorized: false,
-  },
+  debug: true,
+  logger: true,
 });
+await transporter.verify();
+console.log("SMTP connection successful");
 await transporter.sendMail({
     from: process.env.EMAIL_USER,
     to: process.env.EMAIL_USER,
@@ -76,6 +77,8 @@ app.get("/api/contact", async (req, res) => {
     res.json(contacts);
 
 });
-app.listen(5000, () => {
-    console.log("Server Running on Port 5000");
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+    console.log(`Server Running on Port ${PORT}`);
 });
