@@ -1,8 +1,9 @@
+require("dotenv").config();
+
 const { Resend } = require("resend");
+console.log("RESEND KEY EXISTS:", !!process.env.RESEND_API_KEY);
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-
-require("dotenv").config();
 const express = require("express");
 const Project = require("./models/Project");
 const Contact = require("./models/Contact");
