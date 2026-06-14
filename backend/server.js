@@ -1,5 +1,12 @@
 require("dotenv").config();
 
+console.log("RESEND KEY EXISTS:", !!process.env.RESEND_API_KEY);
+console.log("MONGO EXISTS:", !!process.env.MONGO_URI);
+
+const { Resend } = require("resend");
+const resend = new Resend(process.env.RESEND_API_KEY);
+require("dotenv").config();
+
 const { Resend } = require("resend");
 console.log("RESEND KEY EXISTS:", !!process.env.RESEND_API_KEY);
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -65,6 +72,10 @@ Message: ${req.body.message}
     console.error("MAIL ERROR:", err);
     res.status(500).json({ error: err.message });
   }
+});
+app.get("/api/contact", async (req, res) => {
+    const contacts = await Contact.find();
+    res.json(contacts);
 });
 const PORT = process.env.PORT || 5000;
 
