@@ -5,11 +5,7 @@ console.log("MONGO EXISTS:", !!process.env.MONGO_URI);
 
 const { Resend } = require("resend");
 const resend = new Resend(process.env.RESEND_API_KEY);
-require("dotenv").config();
 
-const { Resend } = require("resend");
-console.log("RESEND KEY EXISTS:", !!process.env.RESEND_API_KEY);
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 const express = require("express");
 const Project = require("./models/Project");
